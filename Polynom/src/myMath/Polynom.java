@@ -45,17 +45,17 @@ public class Polynom implements Polynom_able {
 	 */
 	public String toString() {
 		String s="";
-		Iterator<Monom> v=this.iteretor();
-		Monom m=v.next();
-		s+=m.toString();
+		Iterator<Monom> v = this.iteretor();
+		Monom m = v.next();
+		s += m.toString();
 		while(v.hasNext()) {
-			m=v.next();
+			m = v.next();
 			if(m.get_coefficient()>0)
-				s+=" + "+m.toString();
+				s += " + " + m.toString();
 			else if(m.get_coefficient()<0) {
-				String r=""+m.toString();
+				String r = "" + m.toString();
 				r=r.substring(1);
-				s+=" - "+r;
+				s+=" - " + r;
 			}
 		}
 		return s;
@@ -277,36 +277,28 @@ if yes then remove the monom from the polynom
 		// TODO Auto-generated method stub
 		double f0 = this.f(x0);
 		double f1 = this.f(x1);
-
-		if (f0 * f1 > 0)
-		{
-			throw new RuntimeException("ERROR: x1 and x0 are not opposite to one another."); // If the values are invalid
+		if (f0 * f1 > 0){
+			throw new RuntimeException("ERROR: x1 and x0 are not opposite to one another.");
 		}
-
-		double lengthX = Math.abs(x0 - x1);
-		double lengthF = Math.abs(f0 - f1);
-		while (lengthX > eps || lengthF > eps) // Check if we reached tolerance of error.
-		{
-			double xm = (x0 + x1) / 2;
-			double fm = this.f(xm);
-			double value = f0 * fm;
-			if (value < 0)
-			{
-				x1 = xm;
-				f1 = this.f(x1);
+		double length_x = Math.abs(x0 - x1);
+		double length_y = Math.abs(f0 - f1);
+		while (length_x > eps || length_y > eps) {
+			double mid_x = (x0 + x1) / 2;
+			double mid_y = this.f(mid_x);
+			double value = f0 * mid_y;
+			if (value < 0){
+				x1 = mid_x;
+				f1 = f(x1);
 			}
-			else if (value > 0)
-			{
-				x0 = xm;
-				f0 = this.f(x0);
+			else if (value > 0){
+				x0 = mid_x;
+				f0 = f(x0);
 			}
-
-			else
-			{
-				return xm;
+			else{
+				return mid_x;
 			}
-			lengthX = Math.abs(x0 - x1);
-			lengthF = Math.abs(f0 - f1);
+			length_x = Math.abs(x0 - x1);
+			length_y = Math.abs(f0 - f1);
 		}
 		return x1;
 	}
@@ -377,48 +369,37 @@ if yes then remove the monom from the polynom
 	 */
 
 	public double area(double x0, double x1, double eps) {
-		// TODO Auto-generated method stub
-//		double a=Math.abs(x1-x0)/eps;
-//		double ans=0;
-//		for (int i = 1; i <= a; i++) {
-//			ans+=eps*this.f(x0+i*eps);
-//		}
-//		return ans;
-		if (x0 > x1)
-		{
+		if (x0 > x1){
 			throw new RuntimeException("ERROR: Wrong values (x0 shoudl be less than x1");
 		}
-		double areaAbove= 0;
-		double areaUnder =0;
-		double aproxmAreaUnder = 0; // Sum of each rectangle.
+		double ar_under = 0; // Sum of each rectangle.
 		double numOfRec = Math.abs((x1 - x0) / eps); // Number of rectangles calculated using eps.
-		double epsM = eps / 2;
-		for (int i = 1; i <= numOfRec; i++)
-		{
-			double Area = eps * this.f(x0 + epsM);
+		double mideps = eps / 2;
+		for (int i = 1; i <= numOfRec; i++){
+			double Area = eps *f(x0 + mideps);
 			if (Area <= 0)
 			{
-				aproxmAreaUnder += Area;
+				ar_under += Area;
 			}
 
-			epsM += eps;
+			mideps += eps;
 		}
-		areaUnder= -aproxmAreaUnder;
-		double aproxmAreaAbove = 0; // Sum of each rectangle.
+		double under =0;
+		double ar_above = 0; // Sum of each rectangle.
 		numOfRec = Math.abs((x1 - x0) / eps); // Number of rectangles calculated using eps.
-		epsM = eps / 2;
+		mideps = eps / 2;
 		for (int i = 1; i <= numOfRec; i++)
 		{
-			double Area = eps * this.f(x0 + epsM);
+			double Area = eps * this.f(x0 + mideps);
 			if (Area >= 0)
 			{
-				aproxmAreaAbove += Area;
+				ar_above += Area;
 			}
 
-			epsM += eps;
+			mideps += eps;
 		}
-		areaAbove= aproxmAreaAbove;
-		return areaAbove + areaUnder;
+		double above= ar_above;
+		return above + under;
 	}
 
 	@Override
@@ -521,7 +502,4 @@ if yes then remove the monom from the polynom
 		System.out.println(p3.area(0, 2, 0.5));
 
 	}
-
-	// ********** add your code below ***********
-
 }
