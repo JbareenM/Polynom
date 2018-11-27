@@ -433,6 +433,8 @@ if yes then remove the monom from the polynom
 		Polynom p=new Polynom();
 		str=str.replaceAll(" ", "");
 		str +="+";
+		if(str.charAt(0)!='+'&&str.charAt(0)!='-')
+			str="+"+str;
 		String s="";
 		for (int i = 0; i < str.length(); i++) {
 			if(i==str.length()-1)
