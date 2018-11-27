@@ -431,42 +431,48 @@ if yes then remove the monom from the polynom
 	private static Polynom init_from_string(String str) {
 		int start=0,end=0;
 		Polynom p=new Polynom();
-		str+="+";
+		str=str.replaceAll(" ", "");
+		str +="+";
 		String s="";
 		for (int i = 0; i < str.length(); i++) {
+			if(i==str.length()-1)
+				break;
 			if(str.charAt(i)=='+') {
-				end=i;
-				s=str.substring(start, end);
-				if(s.charAt(0)==' ')
-					s=s.substring(1);
-				else if(s.charAt(0)=='-') {
-					if(s.contains(" "))
-						s="-"+s.substring(2);
-					else
-						s="-"+s.substring(1);
-				}
-				String[] copy=s.split(" ");
-				p.add(new Monom(copy[0]));
 				start=i+1;
+				for (int j = i+1; j < str.length(); j++) {
+					if(str.charAt(j)=='+'||str.charAt(j)=='-') {
+						end=j;
+						break;
+					}
+					else if(j==str.length()) {
+						end=str.length();
+						break;
+					}
+				}
+				s=str.substring(start,end);
+				p.add(new Monom(s));
 			}
 			else if(str.charAt(i)=='-') {
-				end=i;
-				s=str.substring(start, end);
-				if(s.charAt(0)==' ')
-					s=s.substring(1);
-				else if(s.charAt(0)=='-') {
-					if(s.contains(" "))
-						s="-"+s.substring(2);
-					else
-						s="-"+s.substring(1);
-				}
-				String[] copy=s.split(" ");
-				p.add(new Monom(copy[0]));
 				start=i;
+				for (int j = i+1; j < str.length(); j++) {
+					if(str.charAt(j)=='+'||str.charAt(j)=='-') {
+						end=j;
+						break;
+					}
+					else if(j==str.length()) {
+						end=str.length();
+						break;
+					}
+				}
+				s=str.substring(start,end);
+				p.add(new Monom(s));
 			}
 		}
 		return p;
 	}
+
+
+
 	public static void main(String[] args) {
 		Polynom p0=new Polynom();
 		Polynom p1=new Polynom();
