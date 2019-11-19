@@ -8,15 +8,6 @@
 
 #
 
-#
-# 207392283
-
-#
-# 318185311
-
-#
-# 314638867
-
 ## **descreption**
 
 This project represents monomial, polynomial with many functions and operations
